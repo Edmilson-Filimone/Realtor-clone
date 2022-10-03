@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    @apply bg-green-50
+}
+
+input{
+    @apply block bg-white  border shadow-md p-2.5 my-3 w-full
+}
