@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 
 const SignIn = () => {
 
   //usestate for handle inputs data
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [inputData, setInputData] = useState({ email: "", password: "" });
-  const {email, password} = inputData
+  const {email, password} = inputData  //destructing the object {} to retrieve individuals values
   
-  //onchange functions for handlr inputd changes
+  //onchange functions for handle input changes during onChange event
   const onchange = (e) => {
     setInputData((preStat) => ({
       ...preStat,
@@ -24,7 +26,7 @@ const SignIn = () => {
           src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8a2V5JTIwZG9vcnxlbnwwfHwwfHw%3D&w=1000&q=80"
           alt="Sign In "
         />
-        <form className="w-full py-2 max-w-6xl">
+        <form className="relative w-full py-2 max-w-6xl">
           <input
             className="rounded-md"
             type="email"
@@ -35,14 +37,18 @@ const SignIn = () => {
             onChange={onchange}
           />
           <input
-            className="rounded-md"
-            type="password"
+            className="relative rounded-md"
+            type={passwordVisibility ? "text" : "password"}
             name="password"
             id="password"
             placeholder="Password"
             value={password}
             onChange={onchange}
           />
+          <div className="absolute top-[87px] right-3 text-gray-400">
+            {!passwordVisibility && (<AiFillEyeInvisible onClick={() => setPasswordVisibility(true)} />)}
+            {passwordVisibility && (<AiFillEye onClick={() => setPasswordVisibility(false)} />)}
+          </div>
           <div className="flex justify-between py-4">
             <div>
               <span>Don't have an account?</span>
