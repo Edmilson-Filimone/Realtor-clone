@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import { Link } from "react-router-dom";
+import OAuthButton from "../components/OAuthButton";
 
 const SignIn = () => {
 
@@ -52,13 +54,13 @@ const SignIn = () => {
           <div className="flex justify-between py-4">
             <div>
               <span>Don't have an account?</span>
-              <span className="px-1 text-red-500 cursor-pointer">Register</span>
+              <Link to={"/sign-up"} className="px-1 text-red-500 cursor-pointer">Register</Link>
             </div>
-            <span className="text-blue-500 cursor-pointer">
+            <Link to={"/forgot-password"} className="text-blue-500 cursor-pointer">
               Forgot password?
-            </span>
+            </Link>
           </div>
-          <button className="w-full px-5 py-2 shadow-md text-white text-center uppercase font-semibold bg-blue-500">
+          <button className="w-full px-5 py-2 shadow-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75">
             Sign In
           </button>
           <div className="flex items-center py-4">
@@ -66,9 +68,7 @@ const SignIn = () => {
             <span className="px-3 uppercase">or</span>
             <div className="w-full border-b-2 border-gray-200"></div>
           </div>
-          <button className="w-full px-5 py-2 shadow-md text-white text-center uppercase font-semibold bg-red-500">
-            Continue with google
-          </button>
+          <OAuthButton />
         </form>
       </div>
     </section>
