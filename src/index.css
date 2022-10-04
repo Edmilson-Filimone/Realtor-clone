@@ -7,5 +7,5 @@ body{
 }
 
 input{
-    @apply block bg-white  border shadow-md p-2.5 my-3 w-full
+    @apply block bg-white border shadow-md p-2.5 my-3 w-full
 }
