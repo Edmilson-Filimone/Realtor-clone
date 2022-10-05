@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    @apply bg-green-50
+    @apply min-w-[350px] bg-green-50
 }
 
 input{

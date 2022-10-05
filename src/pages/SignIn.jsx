@@ -60,7 +60,7 @@ const SignIn = () => {
               Forgot password?
             </Link>
           </div>
-          <button className="w-full px-5 py-2 shadow-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75">
+          <button className="w-full px-5 py-2 shadow-md rounded-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75">
             Sign In
           </button>
           <div className="flex items-center py-4">
