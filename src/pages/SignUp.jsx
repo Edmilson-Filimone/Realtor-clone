@@ -2,6 +2,10 @@ import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { Link } from "react-router-dom";
 import OAuthButton from "../components/OAuthButton";
+import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth"
+import { async } from "@firebase/util";
+import db from "../firebase.config.js"
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const SignUp = () => {
 
@@ -18,6 +22,26 @@ const SignUp = () => {
     }));
     console.log(`Your name: ${name}, email: ${email} and Your password: ${password}`)
   };
+
+  //Function to create the new user and save the data of the user on user database - linked to the form button
+  //All the info of the user including password are save in the auth service and then only the name email and time are save in the user db.
+
+  async function createUser() {
+    const auth = getAuth();
+    try{
+      //creating the user in the auth service
+      const userCredential =  await createUserWithEmailAndPassword(auth, email, password)
+      updateProfile(auth.currentUser, {displayName:name}) //seting the name
+      const user = userCredential.user
+      console.log(user)
+      //save the user info (name, email and time in the firestore db)
+      const docRef = await addDoc(collection(db, "users"), {name:name,email:email, timeStamp: serverTimestamp()})
+    }
+    catch(error){
+      console.log(error.message)
+    }
+    
+  }
 
   return (
     <section className="py-5 px-10 md:px-24 lg:px-36 xl:px-44">
@@ -69,7 +93,10 @@ const SignUp = () => {
               Forgot password?
             </Link>
           </div>
-          <button className="w-full px-5 py-2 shadow-md rounded-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75">
+          <button className="w-full px-5 py-2 shadow-md rounded-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75" onClick={(e) => {
+            e.preventDefault();
+            createUser();
+          }}>
             Sign In
           </button>
           <div className="flex items-center py-4">
