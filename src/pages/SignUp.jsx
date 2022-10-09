@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import OAuthButton from "../components/OAuthButton";
-import {getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth"
-import { async } from "@firebase/util";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import db from "../firebase.config.js"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {toast } from 'react-toastify';
 
 const SignUp = () => {
 
   //usestate for handle inputs data
   const [passwordVisibility, setPasswordVisibility] = useState(false)
-  const [inputData, setInputData] = useState({name:"", email: "", password: "" });
-  const {name, email, password} = inputData  //destructing the object {} to retrieve individuals values
-  
+  const [inputData, setInputData] = useState({ name: "", email: "", password: "" });
+  const { name, email, password } = inputData  //destructing the object {} to retrieve individuals values
+
+  const navigate = useNavigate()
+
   //onchange functions for handle input changes during onChange event
   const onchange = (e) => {
     setInputData((preStat) => ({
@@ -28,19 +30,21 @@ const SignUp = () => {
 
   async function createUser() {
     const auth = getAuth();
-    try{
+    try {
       //creating the user in the auth service
-      const userCredential =  await createUserWithEmailAndPassword(auth, email, password)
-      updateProfile(auth.currentUser, {displayName:name}) //seting the name
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      updateProfile(auth.currentUser, { displayName: name }) //seting the name
       const user = userCredential.user
       console.log(user)
       //save the user info (name, email and time in the firestore db)
-      const docRef = await addDoc(collection(db, "users"), {name:name,email:email, timeStamp: serverTimestamp()})
+      const docRef = await addDoc(collection(db, "users"), { name: name, email: email, timeStamp: serverTimestamp() })
+      navigate("/")
     }
-    catch(error){
+    catch (error) {
       console.log(error.message)
+      toast.error(`${error.message}`);
     }
-    
+
   }
 
   return (
@@ -53,7 +57,7 @@ const SignUp = () => {
           alt="Sign In "
         />
         <form className="relative w-full py-2 max-w-6xl">
-        <input
+          <input
             className="rounded-md"
             type="text"
             name="name"
