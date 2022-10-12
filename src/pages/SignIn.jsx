@@ -5,12 +5,12 @@ import OAuthButton from "../components/OAuthButton";
 
 const SignIn = () => {
 
-  //usestate for handle inputs data
+  /** usestate for handle inputs data */
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [inputData, setInputData] = useState({ email: "", password: "" });
-  const {email, password} = inputData  //destructing the object {} to retrieve individuals values
+  const {email, password} = inputData  // destructing the object {} to retrieve individuals values
   
-  //onchange functions for handle input changes during onChange event
+  /** onchange functions for handle input changes during onChange event */
   const onchange = (e) => {
     setInputData((preStat) => ({
       ...preStat,

@@ -32,9 +32,9 @@ const SignUp = () => {
     const auth = getAuth();
     try {
       //creating the user in the auth service
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-      updateProfile(auth.currentUser, { displayName: name }) //seting the name
-      const user = userCredential.user
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password) //this line is responsible to register the new user
+      updateProfile(auth.currentUser, { displayName: name }) //(update) seting the name
+      const user = userCredential.user 
       console.log(user)
       //save the user info (name, email and time in the firestore db)
       const docRef = await addDoc(collection(db, "users"), { name: name, email: email, timeStamp: serverTimestamp() })
