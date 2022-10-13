@@ -1,17 +1,33 @@
+import { async } from "@firebase/util";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import OAuthButton from "../components/OAuthButton";
 
 const ForgotPassword = () => {
-
   //usestate for handle inputs data
   const [email, setEmail] = useState("");
-  
+
   //onchange functions for handle input changes during onChange event
   const onchange = (e) => {
     setEmail(e.target.value);
-    console.log(email)
+    console.log(email);
   };
+
+  /** reset password functionality */
+  async function resetPass() {
+   
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+      toast.success(`A email was sent to ${email}`);
+  
+    } catch (error) {
+      console.log(error)
+      toast.error("Ups! was not possible to send the email");
+    }
+  }
 
   return (
     <section className="py-5 px-10 md:px-24 lg:px-36 xl:px-44">
@@ -35,13 +51,19 @@ const ForgotPassword = () => {
           <div className="flex justify-between py-4">
             <div>
               <span>Don't have an account?</span>
-              <Link to={"/sign-up"} className="px-1 text-red-500 cursor-pointer">Register</Link>
+              <Link
+                to={"/sign-up"}
+                className="px-1 text-red-500 cursor-pointer"
+              >
+                Register
+              </Link>
             </div>
             <Link to={"/sign-in"} className="text-blue-500 cursor-pointer">
               Sign in instead
             </Link>
           </div>
-          <button className="w-full px-5 py-2 shadow-md rounded-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75">
+          <button type="button" className="w-full px-5 py-2 shadow-md rounded-md text-white text-center uppercase font-medium bg-blue-500 hover:brightness-75"
+          onClick={resetPass}>
             send reset password
           </button>
           <div className="flex items-center py-4">
