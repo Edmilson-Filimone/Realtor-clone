@@ -38,7 +38,7 @@ const SignUp = () => {
       console.log(user)
       //save the user info (name, email and time in the firestore db)
       const docRef = await addDoc(collection(db, "users"), { name: name, email: email, timeStamp: serverTimestamp() })
-      navigate("/")
+      navigate("/profile")
     }
     catch (error) {
       console.log(error.message)

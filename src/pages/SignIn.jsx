@@ -36,7 +36,7 @@ const SignIn = () => {
       const user = userCredential.user;
 
       if (user) {
-        navigate("/");
+        navigate("/profile");
       }
     } catch (error) {
       console.log(error)

@@ -1,5 +1,6 @@
 import { getAuth } from "firebase/auth"
 import { useState } from "react"
+import { useNavigate } from "react-router"
 
 const Profile = () => {
   
@@ -7,6 +8,14 @@ const Profile = () => {
   
   const [inputData, setInputData] = useState({name:auth.currentUser.displayName, email:auth.currentUser.email})
   const {name, email} = inputData
+
+  const navigate = useNavigate()
+
+  /** Sign Out function */
+  const signOut = () => {
+    auth.signOut()
+    navigate("/")   
+  }
 
   return (
     <>
@@ -18,7 +27,7 @@ const Profile = () => {
       </form>
       <div className="flex justify-between text-sm md:text-base whitespace-nowrap">
         <p>Do you want to change your name?<span className="text-red-600 cursor-pointer hover:brightness-75"> Edit </span></p>
-        <span className="text-blue-600 cursor-pointer hover:brightness-75">Sign Out</span>
+        <span className="text-blue-600 cursor-pointer hover:brightness-75" onClick={signOut}>Sign Out</span>
       </div>
     </section>
     </>

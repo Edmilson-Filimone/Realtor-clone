@@ -38,7 +38,7 @@ function OAuthButton() {
             }
 
             /** then redirect to home */
-            navigate("/")
+            navigate("/profile")
 
         } catch (error) {
             toast.error("At the moment we are not able to register, please try again")
