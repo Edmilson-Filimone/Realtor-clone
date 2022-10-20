@@ -79,13 +79,13 @@ const Profile = () => {
           />
         </form>
         <div className="flex justify-between text-sm md:text-base whitespace-nowrap">
-          <p>
+          <div>
             Do you want to change your name?
             <div onClick={handleClick} className="inline text-red-600 cursor-pointer hover:brightness-75">
              {!enableEdit && <span>Edit</span>}
              {enableEdit &&  <span onClick={handleUpdate}>Apply changes</span>}
             </div>
-          </p>
+          </div>
           <span
             className="text-blue-600 cursor-pointer hover:brightness-75"
             onClick={signOut}

@@ -13,7 +13,7 @@ const useAuthStatus = () => {
         setCheckingStatus(false)
       }
     });
-  },[]);
+  },[isLogged]);
 
   return {isLogged, checkingStatus};
 };
