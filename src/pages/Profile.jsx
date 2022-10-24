@@ -2,11 +2,11 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import db from "../firebase.config.js"
+import db from "../firebase.config.js";
 
 const Profile = () => {
-
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -17,7 +17,6 @@ const Profile = () => {
   });
   const { name, email } = inputData;
 
-
   /** onChange - handle input form data */
   const onChange = (e) => {
     setInputData((prevState) => ({
@@ -26,31 +25,31 @@ const Profile = () => {
     }));
   };
 
-
   /** handleClick - click event to enable or disable edit mode on the input name */
-  const [enableEdit, setEnableEdit] = useState(false) 
+  const [enableEdit, setEnableEdit] = useState(false);
 
-  const handleClick = () => {setEnableEdit((prevState) => !prevState )}
+  const handleClick = () => {
+    setEnableEdit((prevState) => !prevState);
+  };
 
   /** handleUpdate - Update the info on firebase authentication and firestore db */
   async function handleUpdate() {
     try {
-      if(name !== auth.currentUser.displayName){
+      if (name !== auth.currentUser.displayName) {
         //update in auth service
-        await updateProfile(auth.currentUser, {displayName: name})}
-        
-        //update in firestore
-        const docRef = doc(db, "users", auth.currentUser.uid)
-        await updateDoc(docRef, {displayName: name})
+        await updateProfile(auth.currentUser, { displayName: name });
+      }
 
-        toast.success("User profile updated")
-    
+      //update in firestore
+      const docRef = doc(db, "users", auth.currentUser.uid);
+      await updateDoc(docRef, { displayName: name });
+
+      toast.success("User profile updated");
     } catch (error) {
-      toast.error("Failed to update")
+      toast.error("Failed to update");
     }
-
   }
-  
+
   /** Sign Out function */
   const signOut = () => {
     auth.signOut();
@@ -81,9 +80,12 @@ const Profile = () => {
         <div className="flex justify-between text-sm md:text-base whitespace-nowrap">
           <div>
             Do you want to change your name?
-            <div onClick={handleClick} className="inline text-red-600 cursor-pointer hover:brightness-75">
-             {!enableEdit && <span>Edit</span>}
-             {enableEdit &&  <span onClick={handleUpdate}>Apply changes</span>}
+            <div
+              onClick={handleClick}
+              className="inline text-red-600 cursor-pointer hover:brightness-75"
+            >
+              {!enableEdit && <span>Edit</span>}
+              {enableEdit && <span onClick={handleUpdate}>Apply changes</span>}
             </div>
           </div>
           <span
@@ -93,6 +95,9 @@ const Profile = () => {
             Sign Out
           </span>
         </div>
+        <button className="w-full px-3 py-2 my-4 text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90">
+          <Link to="/create-listing">sell or rent your home</Link>
+        </button>
       </section>
     </>
   );
