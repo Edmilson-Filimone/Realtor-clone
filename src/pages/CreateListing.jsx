@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const createListing = () => {
+  const [enableGeolocation, setGeolocation] = useState(false);
+  const [getLoadingStatus, setLoadingStatus] = useState(false);
   const [inputData, setInputData] = useState({
-    type: "rent",
+    type: "sell",
     name: "",
     beds: 2,
     baths: 1,
@@ -13,7 +16,9 @@ const createListing = () => {
     offers: true,
     price: 0,
     discount: 0,
-    image:""
+    image: {},
+    longitude:0,
+    latitude:0,
   });
 
   const {
@@ -28,23 +33,52 @@ const createListing = () => {
     offers,
     price,
     discount,
-    image
+    image,
+    longitude,
+    latitude
   } = inputData;
 
-  const onchange = () => {/*implementation*/}
+  const onchange = (e) => {
+    e.preventDefault();
+
+    /**For the boolean inputs - buttons*/
+    let bool = null;
+
+    if (e.target.value === "true") {
+      bool = true;
+    }
+
+    if (e.target.value === "false") {
+      bool = false;
+    }
+
+    /**For the input file only*/
+    if (e.target.files) {
+      setInputData((prevStat) => ({ ...prevStat, image: e.target.value }));
+    }
+
+    /*For other inputs*/
+    if (!e.target.files) {
+      setInputData((prevStat) => ({
+        ...prevStat,
+        [e.target.id]: bool ?? e.target.value,
+      }));
+    }
+  };
 
   return (
     <>
       <h1 className="mt-3 mb-3 text-3xl text-center font-bold ">
         Create a Listing
-      </h1>
-      <form className="w-[400px] mx-auto">
+      </h1> 
+      <form className="w-[400px] mx-auto" onSubmit={onsubmit}>
         <label className="font-medium">Sell / Rent</label>
         <div className="flex justify-between gap-5 mb-5">
           <button
+            id="type"
             type="button"
-            value={type}
-            onChange={onchange}
+            value="sell"
+            onClick={onchange}
             className={`w-full py-2 px-3 font-medium text-sm uppercase border border-gray-200 shadow-lg rounded ${
               type === "sell" ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -52,9 +86,10 @@ const createListing = () => {
             sell
           </button>
           <button
+            id="type"
             type="button"
-            value={type}
-            onChange={onchange}
+            value="rent"
+            onClick={onchange}
             className={`w-full py-2 px-3 font-medium text-sm uppercase border border-gray-200 shadow-lg rounded ${
               type === "rent" ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -116,9 +151,10 @@ const createListing = () => {
         <label className="font-medium">Parking spot</label>
         <div className="flex justify-between gap-5 mb-5">
           <button
+            id="parking"
             type="button"
-            value={parking}
-            onChange={onchange}
+            value={true}
+            onClick={onchange}
             className={`w-full py-2 px-3 text-sm font-medium  border border-gray-200 shadow-lg rounded ${
               parking ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -126,9 +162,10 @@ const createListing = () => {
             yes
           </button>
           <button
+            id="parking"
             type="button"
-            value={!parking}
-            onChange={onchange}
+            value={false}
+            onClick={onchange}
             className={`w-full py-2 px-3 text-sm font-medium uppercase border border-gray-200 shadow-lg rounded ${
               !parking ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -140,9 +177,10 @@ const createListing = () => {
         <label className="font-medium">Furnished</label>
         <div className="flex justify-between gap-5 mb-5">
           <button
+            id="furnished"
             type="button"
-            value={furnished}
-            onChange={onchange}
+            value={true}
+            onClick={onchange}
             className={`w-full py-2 px-3 text-sm font-medium uppercase border border-gray-200 shadow-lg rounded ${
               furnished ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -150,9 +188,10 @@ const createListing = () => {
             yes
           </button>
           <button
+            id="furnished"
             type="button"
-            value={!furnished}
-            onChange={onchange}
+            value={false}
+            onClick={onchange}
             className={`w-full py-2 px-3 text-sm font-medium uppercase border border-gray-200 shadow-lg rounded ${
               !furnished ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -177,6 +216,43 @@ const createListing = () => {
           className="shadow-md rounded border border-gray-300 focus:border-slate-300"
         />
 
+        {enableGeolocation && (
+          <div className="flex space-x-5">
+            <div>
+              <label className="font-medium" htmlFor="longitude">Longitude</label>
+              <input
+                type="number"
+                name="longitude"
+                id="longitude"
+                placeholder={0}
+                value={longitude}
+                required
+                minLength={-180}
+                maxLength={180}
+                onChange={onchange}
+                className="shadow-md rounded border border-gray-300 focus:border-slate-300"
+              />
+            </div>
+
+            <div>
+              <label className="font-medium" htmlFor="latitude">Latitude</label>
+              <input
+                type="number"
+                name="latitude"
+                id="latitude"
+                placeholder={0}
+                value={latitude}
+                required
+                minLength={-90}
+                maxLength={90}
+                onChange={onchange}
+                className="shadow-md rounded border border-gray-300 focus:border-slate-300"
+              />
+            </div>
+
+          </div>
+        )}
+
         <label className="font-medium" htmlFor="description">
           Description
         </label>
@@ -196,9 +272,10 @@ const createListing = () => {
         <label className="font-medium">Offers</label>
         <div className="flex justify-between gap-5 mb-5">
           <button
+            id="offers"
             type="button"
-            value={offers}
-            onChange={onchange}
+            value={true}
+            onClick={onchange}
             className={`w-full py-2 px-3 font-medium text-sm uppercase border border-gray-200 shadow-lg rounded ${
               offers ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -206,9 +283,10 @@ const createListing = () => {
             yes
           </button>
           <button
+            id="offers"
             type="button"
-            value={offers}
-            onChange={onchange}
+            value={false}
+            onClick={onchange}
             className={`w-full py-2 px-3 font-medium text-sm uppercase border border-gray-200 shadow-lg rounded ${
               !offers ? "bg-slate-600 text-white" : "bg-white"
             }`}
@@ -232,7 +310,7 @@ const createListing = () => {
             onChange={onchange}
             className="w-1/4 shadow-md rounded border border-gray-300 focus:border-slate-300"
           />
-          {type === "rent" && <span>$ / Month</span>}
+          {type === "rent" ? <span>$ / Month</span> : <span> $ </span>}
         </div>
 
         {offers && (
@@ -250,7 +328,7 @@ const createListing = () => {
                 onChange={onchange}
                 className="w-1/4 shadow-md rounded border border-gray-300 focus:border-slate-300"
               />
-              {type === "rent" && <span>$ / Month</span>}
+              {type === "rent" ? <span>$ / Month</span> : <span>$</span>}
             </div>
           </div>
         )}
@@ -274,7 +352,12 @@ const createListing = () => {
           className="bg-white px-2 py-3 mt-0 shadow-md rounded border border-gray-300"
         />
 
-        <button className="w-full text-white uppercase font-semibold bg-blue-500 px-2 py-2 mt-2 mb-4 shadow-md rounded hover:brightness-90 duration-75 ease-in-out" type="submit">create listing</button>
+        <button
+          className="w-full text-white uppercase font-semibold bg-blue-500 px-2 py-2 mt-2 mb-4 shadow-md rounded hover:brightness-90 duration-75 ease-in-out"
+          type="submit"
+        >
+          create listing
+        </button>
       </form>
     </>
   );
