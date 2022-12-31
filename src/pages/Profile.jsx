@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import db from "../firebase.config.js";
+import {db} from "../firebase.config.js";
 
 const Profile = () => {
   const navigate = useNavigate();

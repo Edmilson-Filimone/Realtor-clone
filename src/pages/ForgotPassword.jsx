@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";

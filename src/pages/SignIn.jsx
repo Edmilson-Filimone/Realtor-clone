@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";

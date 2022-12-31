@@ -3,7 +3,7 @@ import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { Link, useNavigate} from "react-router-dom";
 import OAuthButton from "../components/OAuthButton";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import db from "../firebase.config.js"
+import {db} from "../firebase.config.js"
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import {toast } from 'react-toastify';
 

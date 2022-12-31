@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-import db from "../firebase.config";
+import {db} from "../firebase.config";
 import { toast } from "react-toastify";
 
 function OAuthButton() {
