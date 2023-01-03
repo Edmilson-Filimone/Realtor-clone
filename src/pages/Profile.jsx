@@ -1,10 +1,20 @@
 import { getAuth, updateProfile } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import {db} from "../firebase.config.js";
+import { db } from "../firebase.config.js";
+import Card from "../components/Card.jsx";
+import { uuidv4 as uuid } from "@firebase/util";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -31,6 +41,7 @@ const Profile = () => {
   const handleClick = () => {
     setEnableEdit((prevState) => !prevState);
   };
+  22;
 
   /** handleUpdate - Update the info on firebase authentication and firestore db */
   async function handleUpdate() {
@@ -55,6 +66,32 @@ const Profile = () => {
     auth.signOut();
     navigate("/");
   };
+
+  const [dataCollection, setDataCollection] = useState([]);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      const dbRef = collection(db, "listings");
+      const q = query(
+        dbRef,
+        where("user", "==", auth.currentUser.uid),
+        orderBy("timeStamp", "desc")
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        //console.log(doc.id, "=>", doc.data());
+        setDone(true);
+        setDataCollection((preStat) => [
+          ...preStat,
+          { id: doc.id, data: doc.data() },
+        ]);
+      });
+    }
+    fetchData();
+  }, [auth.currentUser.uid]);
+
+  console.log(dataCollection);
 
   return (
     <>
@@ -98,6 +135,17 @@ const Profile = () => {
         <button className="w-full px-3 py-2 my-4 text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90">
           <Link to="/create-listing">sell or rent your home</Link>
         </button>
+        <h2 className={"text-2xl text-center font-semibold py-5"}>My Listing</h2>
+        <div className="md:grid gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        {
+        done && dataCollection.map((doc) => (
+        <div>
+        <Card key={uuid()} data={doc.data} />
+        </div>
+        ))
+        }
+        </div>
+          
       </section>
     </>
   );

@@ -9,6 +9,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router";
 
 const createListing = () => {
+  const auth = getAuth()
   const navigate = useNavigate();
   const [enableGeolocation, setGeolocation] = useState(false);
   const [getLoadingStatus, setLoadingStatus] = useState(false);
@@ -174,6 +175,7 @@ const createListing = () => {
       ...inputData,
       geoLocation,
       imgUrls,
+      user: auth.currentUser.uid,
       timeStamp: serverTimestamp(),
     };
     //removing the discount price if offer is no (false)
