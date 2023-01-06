@@ -5,7 +5,7 @@ import { db, storage } from "../firebase.config";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router";
 
 const createListing = () => {
@@ -49,7 +49,13 @@ const createListing = () => {
   const onchange = (e) => {
     e.preventDefault();
 
-    /**For the boolean inputs - buttons*/
+   /**For the input file only*/
+   if (e.target.files) {
+    setFile(e.target.files);
+    console.log(file);
+  }
+
+    /**Getting data from boolean inputs - buttons*/
     let bool = null;
 
     if (e.target.value === "true") {
@@ -60,13 +66,7 @@ const createListing = () => {
       bool = false;
     }
 
-    /**For the input file only*/
-    if (e.target.files) {
-      setFile(e.target.files);
-      console.log(file);
-    }
-
-    /*For other inputs*/
+    /**For boolean and others inputs: text and number*/
     if (!e.target.files) {
       setInputData((prevStat) => ({
         ...prevStat,
@@ -131,7 +131,6 @@ const createListing = () => {
       toast.error("Can't upload more than 6 images");
     }
 
-    //console.log(inputData);
 
     let geoLocation = {};
 
@@ -153,7 +152,6 @@ const createListing = () => {
       if (data.results[0]) {
         geoLocation.lat = data.results[0]?.position.lat ?? 0;
         geoLocation.lon = data.results[0]?.position.lon ?? 0;
-        //console.log(geoLocation);
       }
     }
 
@@ -167,7 +165,6 @@ const createListing = () => {
       return;
     });
 
-    //console.log(imgUrls);
 
     //upload the info to the db
     //finalData
