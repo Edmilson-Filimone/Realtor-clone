@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 function Card({ id, data, onEdit, onDelete }) {
   return (
     <div className="relative h-[370px] w-full mt-4 mb-4 rounded-md overflow-x-hidden overflow-y-hidden bg-white shadow-md shadow-slate-300">
-      <Link to={`category/${data.type}/${id}`}>
+      <Link to={`/category/${data.type}/${id}`}>
         <img
           className="w-full min-h-[200px] max-h-[200px] object-cover transform hover:scale-110 transition ease-in duration-150"
           src={data.imgUrls[0]}

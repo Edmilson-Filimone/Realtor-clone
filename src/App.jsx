@@ -6,10 +6,12 @@ import Profile from './pages/Profile'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import CreateListing from './pages/CreateListing'
+import EditListing from './pages/EditListing'
 import Header from './components/Header'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './components/PrivateRoute'
+
 
 function App() {
 
@@ -25,11 +27,13 @@ function App() {
       <Route path='/create-listing' element={<PrivateRoute />}>
         <Route path='/create-listing' element={< CreateListing /> } />
       </Route>
+      <Route path='/edit-listing/:listingID' element={<PrivateRoute />}>
+        <Route path='/edit-listing/:listingID' element={< EditListing /> } />
+      </Route>
       <Route path='/offers' element={< Offers />} />
       <Route path='/sign-in' element={< SignIn />} />
       <Route path='/sign-up' element={< SignUp />} />
       <Route path='/forgot-password' element={< ForgotPassword />} />
-
     </Routes>
     </BrowserRouter>
     <ToastContainer

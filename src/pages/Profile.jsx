@@ -74,7 +74,7 @@ const Profile = () => {
   
   /*OnEdit function**/
   const onEdit = (itemID)=>{
-    navigate(`ListingEdit/${itemID}`)
+    navigate(`/edit-listing/${itemID}`)
   }
 
   let updateData = []
