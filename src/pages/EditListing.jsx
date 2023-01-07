@@ -95,7 +95,7 @@ const EditListing = () => {
         setLoadingStatus(false);
         setInputData({ ...docSnap.data() });
         /**Avoiding other users edit other users's data  */
-        if (inputData.user !== auth.currentUser.uid) {
+        if (docSnap.data().user !== auth.currentUser.uid) {
           toast.error("You dont have acess to this page");
           navigate("/");
         }
