@@ -5,18 +5,24 @@ import { db, storage } from "../firebase.config";
 import { getAuth } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { useNavigate, useParams } from "react-router";
 import { useEffect } from "react";
 import { async } from "@firebase/util";
 
 const EditListing = () => {
-  const auth = getAuth()
-  const params = useParams()
+  const auth = getAuth();
+  const params = useParams();
   const navigate = useNavigate();
   const [enableGeolocation, setGeolocation] = useState(false);
   const [getLoadingStatus, setLoadingStatus] = useState(false);
-  const [updateListing, setUpdateListing] = useState()
   const [file, setFile] = useState(""); //for file input
   const [inputData, setInputData] = useState({
     type: "sell",
@@ -53,11 +59,11 @@ const EditListing = () => {
   const onchange = (e) => {
     e.preventDefault();
 
-   /**For the input file only*/
-   if (e.target.files) {
-    setFile(e.target.files);
-    console.log(file);
-  }
+    /**For the input file only*/
+    if (e.target.files) {
+      setFile(e.target.files);
+      console.log(file);
+    }
 
     /**Getting data from boolean inputs - buttons*/
     let bool = null;
@@ -79,31 +85,27 @@ const EditListing = () => {
     }
   };
 
-  /**Avoiding other users edit other users's data  */
-  useEffect(()=>{
-    if(updateListing && updateListing.user !== auth.currentUser.uid){
-        toast.error("You are not allowed to edit this data")
-        navigate('/profile')
-    }
-  },[auth.currentUser.uid])
-
   /**Getting data from db to fill the form*/
-useEffect(()=>{
-    setLoadingStatus(true)
-    async function fetchData(){
-    const docRef = doc(db, 'listings', params.listingID)
-    const docSnap = await getDoc(docRef)
-    if(docSnap.exists()){
-        setLoadingStatus(false)
-        setUpdateListing(docSnap.data())
-        setInputData({...docSnap.data()})}
-        else{
-            navigate('/')
-            toast.error('Item not found')
-        }  
-     }
-    fetchData()
-},[params])
+  useEffect(() => {
+    setLoadingStatus(true);
+    async function fetchData() {
+      const docRef = doc(db, "listings", params.listingID);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setLoadingStatus(false);
+        setInputData({ ...docSnap.data() });
+        /**Avoiding other users edit other users's data  */
+        if (inputData.user !== auth.currentUser.uid) {
+          toast.error("You dont have acess to this page");
+          navigate("/");
+        }
+      } else {
+        navigate("/");
+        toast.error("Item not found");
+      }
+    }
+    fetchData();
+  }, [params]);
 
   /**1-A uploadImage function*/
   async function uploadImage(image) {
@@ -161,7 +163,6 @@ useEffect(()=>{
       toast.error("Can't upload more than 6 images");
     }
 
-
     let geoLocation = {};
 
     if (!enableGeolocation) {
@@ -195,7 +196,6 @@ useEffect(()=>{
       return;
     });
 
-
     //upload the info to the db
     //finalData
     const finalData = {
@@ -207,15 +207,18 @@ useEffect(()=>{
     };
     //removing the discount price if offer is no (false)
     !finalData.offers && delete finalData.discount; //if(offers == false){delete finalData.discount}
-    if(!enableGeolocation){
-      delete finalData.latitude
-      delete finalData.longitude
+    if (!enableGeolocation) {
+      delete finalData.latitude;
+      delete finalData.longitude;
     }
 
-    const docRef = await updateDoc(doc(db, "listings", params.listingID), finalData); //uploading the data
+    const docRef = await updateDoc(
+      doc(db, "listings", params.listingID),
+      finalData
+    ); //uploading the data
     setLoadingStatus(false);
-    toast.success('Listing updated successfully')
-    navigate(`/category/${finalData.type}/${params.listingID}`)
+    toast.success("Listing updated successfully");
+    navigate(`/category/${finalData.type}/${params.listingID}`);
   }
 
   if (getLoadingStatus) return <Spinner />;
