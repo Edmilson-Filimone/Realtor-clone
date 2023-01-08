@@ -11,12 +11,21 @@ import SwiperCore, {
   Pagination,
 } from "swiper";
 import "swiper/css/bundle";
+import { FaShare } from "react-icons/fa";
 
 function Category() {
   const params = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false)
   SwiperCore.use([Autoplay, Navigation, Pagination])
+
+  /**Share Function - to copy the actual link to clipboard*/
+  const copyShare = () => {
+    navigator.clipboard.writeText(window.location.href)
+    setCopied(true)
+    setTimeout(()=>{setCopied(false)}, 3000)
+  }
 
   /**Fetch data of the list from db to fill the page*/
   useEffect(() => {
@@ -57,6 +66,8 @@ function Category() {
           </SwiperSlide>
         ))}
       </Swiper>
+      <div className="absolute z-10 top-[60px] right-[10px] text-lg text-slate-500 bg-white p-3.5 rounded-full" title="Copy link" onClick={copyShare}><FaShare/></div>
+      {copied && (<div className="absolute z-10 top-[65px] right-[60px] text-sm bg-sky-300 p-2 rounded-full">Copied</div>)}
     </main>
   );
 }
