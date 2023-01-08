@@ -9,3 +9,12 @@ body{
 input{
     @apply block bg-white border shadow-md p-2.5 my-3 w-full
 }
+
+/*Swiper navigation control and progressbar css*/
+.swiper-button-next:after,
+.swiper-button-prev:after{
+    color: #a8dadc;
+}
+.swiper-pagination-progressbar,.swiper-pagination-progressbar-fill{
+ background-color: #a8dadc !important;
+}
