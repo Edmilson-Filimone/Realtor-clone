@@ -1,3 +1,4 @@
+import ContactForm from "../components/ContactForm";
 import { useParams, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import { db } from "../firebase.config";
@@ -6,6 +7,7 @@ import Spinner from "../components/Spinner";
 import { FaBath, FaBed, FaChair, FaParking, FaShare } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 import { getAuth } from "firebase/auth";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import SwiperCore, {
@@ -14,7 +16,7 @@ import SwiperCore, {
   Navigation,
   Pagination,
 } from "swiper";
-import ContactForm from "../components/ContactForm";
+
 
 function Category() {
   const params = useParams();
@@ -27,10 +29,10 @@ function Category() {
   const auth = getAuth();
 
   /**Show Form function*/
-  const showContactForm = ()=>{
-    setContactButton(false)
-    setShowForm(true)
-  }
+  const showContactForm = () => {
+    setContactButton(false);
+    setShowForm(true);
+  };
   /**Function to format the price label*/
   const formatPrice = () => {
     const label = data.offers
@@ -57,7 +59,6 @@ function Category() {
       if (docSnap.exists) {
         setData(docSnap.data());
         setLoading(false);
-        console.log(docSnap.data());
       }
     }
     fetchData();
@@ -102,13 +103,13 @@ function Category() {
       )}
       <div className="flex flex-col md:flex-row lg:space-x-5 max-w-6xl mx-auto mt-4 mb-6 py-9 px-4 bg-white rounded-md shadow-lg">
         <div className="w-full">
-          <h3 className="text-xl text-sky-900 font-bold pb-2.5">
+          <h3 className="text-xl text-sky-900 font-bold pb-3">
             <span>{data.name} - </span>
             {formatPrice()}
             <span>{data.type.includes("rent") ? " / Month" : " "}</span>
           </h3>
           <div
-            className="flex justify-start items-center space-x-2 mb-2.5"
+            className="flex justify-start items-center space-x-2 mb-3"
             title="Location"
           >
             <span className="text-green-600">
@@ -119,14 +120,14 @@ function Category() {
             </span>
           </div>
           <div className="flex space-x-5">
-            <div className="w-[200px] bg-red-800 rounded-md shadow-md p-1 mb-2.5 text-center text-base text-white font-semibold capitalize">{`For ${data.type}`}</div>
+            <div className="w-[200px] bg-red-800 rounded-md shadow-md p-1 mb-3 text-center text-base text-white font-semibold capitalize">{`For ${data.type}`}</div>
             {data.offers && (
-              <div className="w-[200px] bg-green-800 rounded-md shadow-md p-1 mb-2.5 text-center text-base text-white font-semibold">{`$ ${
+              <div className="w-[200px] bg-green-800 rounded-md shadow-md p-1 mb-3 text-center text-base text-white font-semibold">{`$ ${
                 Number.parseInt(data.price) - Number.parseInt(data.discount)
               } discount`}</div>
             )}
           </div>
-          <div className="mb-2">
+          <div className="mb-3">
             <span className="font-semibold text-slate-800">Description</span>
             <span className="text-slate-800 pb-1">{` - ${data.description}`}</span>
           </div>
@@ -152,14 +153,34 @@ function Category() {
           </ul>
           <div>
             {showForm && <ContactForm data={data} />}
-            {auth.currentUser.uid !== data.user && contactButton && (
-              <button className="w-full shadow-md rounded-md my-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700" onClick={showContactForm}>
+            {auth.currentUser.uid == data.user && contactButton && (
+              <button
+                className="w-full shadow-md rounded-md my-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700"
+                onClick={showContactForm}
+              >
                 Contact Landlord
               </button>
             )}
           </div>
         </div>
-        <div className="w-full z-10 h-[300px] bg-slate-400"></div>
+        <div className="w-full z-10 h-[280px] md:h-[400px] md:ml-4">
+          <MapContainer
+            center={[data.geoLocation.lat, data.geoLocation.lon]}
+            zoom={13}
+            scrollWheelZoom={false}
+            style={{height:"100%", width:"100%"}}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={[data.geoLocation.lat, data.geoLocation.lon]}>
+              <Popup>
+                {`${data.address} - The location of the house`}
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </div>
       </div>
     </main>
   );

@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 function Card({ id, data, onEdit, onDelete }) {
   return (
     <div className="relative h-[370px] w-full mt-4 mb-4 rounded-md overflow-x-hidden overflow-y-hidden bg-white shadow-md shadow-slate-300">
-      <Link to={`/category/${data.type}/${id}`}>
+      <Link className="overflow-hidden h-[200px]" to={`/category/${data.type}/${id}`}>
         <img
           className="w-full min-h-[200px] max-h-[200px] object-cover transform hover:scale-110 transition ease-in duration-150"
           src={data.imgUrls[0]}
@@ -28,16 +28,10 @@ function Card({ id, data, onEdit, onDelete }) {
         <div className="text-xl text-[#0a2632] font-normal truncate mb-1.5">
           {data.name}
         </div>
-        <div className="text-lg text-sky-800  mb-1.5 truncate" title="Price">{`${
+        <div className="text-lg text-sky-800  mb-1.5 truncate" title="Price">{`$ ${
           data.offers
-            ? data.discount.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })
-            : data.price.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })
+            ? data.discount.toLocaleString("en-US")
+            : data.price.toLocaleString("en-US")
         } ${data.type == "rent" ? "/ Month" : ""}`}</div>
         <div className="flex justify-between">
           <div className="flex justify-start space-x-4 text-slate-900 font-semibold text-sm mb-1.5">
