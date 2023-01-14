@@ -153,7 +153,7 @@ function Category() {
           </ul>
           <div>
             {showForm && <ContactForm data={data} />}
-            {auth.currentUser.uid == data.user && contactButton && (
+            {auth.currentUser.uid !== data.user && contactButton && (
               <button
                 className="w-full shadow-md rounded-md my-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700"
                 onClick={showContactForm}
