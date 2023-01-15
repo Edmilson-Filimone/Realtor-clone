@@ -17,7 +17,6 @@ import SwiperCore, {
   Pagination,
 } from "swiper";
 
-
 function Category() {
   const params = useParams();
   const [data, setData] = useState(null);
@@ -153,7 +152,7 @@ function Category() {
           </ul>
           <div>
             {showForm && <ContactForm data={data} />}
-            {auth.currentUser.uid !== data.user && contactButton && (
+            {auth?.currentUser?.uid !== data.user && contactButton && (
               <button
                 className="w-full shadow-md rounded-md my-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700"
                 onClick={showContactForm}
@@ -164,22 +163,26 @@ function Category() {
           </div>
         </div>
         <div className="w-full z-10 h-[280px] md:h-[400px] md:ml-4">
-          <MapContainer
-            center={[data.geoLocation.lat, data.geoLocation.lon]}
-            zoom={13}
-            scrollWheelZoom={false}
-            style={{height:"100%", width:"100%"}}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={[data.geoLocation.lat, data.geoLocation.lon]}>
-              <Popup>
-                {`${data.address} - The location of the house`}
-              </Popup>
-            </Marker>
-          </MapContainer>
+          {data.geoLocation.lat && data.geoLocation.lon ? (
+            <MapContainer
+              center={[data.geoLocation.lat, data.geoLocation.lon]}
+              zoom={13}
+              scrollWheelZoom={false}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={[data.geoLocation.lat, data.geoLocation.lon]}>
+                <Popup>{`${data.address} - The location of the house`}</Popup>
+              </Marker>
+            </MapContainer>
+          ) : (
+            <div className="hidden md:block border h-[300px] pt-[140px] text-center text-2xl text-slate-400 font-semibold">
+              No Map
+            </div>
+          )}
         </div>
       </div>
     </main>

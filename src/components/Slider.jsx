@@ -35,7 +35,7 @@ function Slider() {
     }
     fetchData();
   }, []);
-console.log(listings)
+//console.log(listings)
   if (loading) {
     return <Spinner />;
   }
