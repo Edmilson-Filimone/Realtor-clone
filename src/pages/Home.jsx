@@ -105,7 +105,7 @@ const Home = () => {
         {doneOffer && (
           <div>
             <h3 className="text-xl font-medium py-4">Recent Offers</h3>
-            <Link to='category/offer'
+            <Link to='/offers'
               className="block text-sm text-blue-600 font-medium cursor-pointer"
               title="See more"
             >
