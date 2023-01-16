@@ -22,3 +22,14 @@ input{
 .swiper-pagination-progressbar-fill{
     background-color: #a8dadc !important;
 }
+
+/*Removing scrollbar*/
+
+/*Chrome*/
+html::-webkit-scrollbar{
+    display: none;
+}
+/*FireFox*/
+html{
+    scrollbar-width: none;
+}

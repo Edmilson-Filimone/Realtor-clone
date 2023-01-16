@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../firebase.config";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [offers, setOffers] = useState();
@@ -28,7 +29,7 @@ const Home = () => {
         collectionRef,
         where("offers", "==", true),
         orderBy("timeStamp", "desc"),
-        limit(5)
+        limit(4)
       );
       const docSnap = await getDocs(q);
 
@@ -54,7 +55,7 @@ const Home = () => {
         collectionRef,
         where("type", "==", "rent"),
         orderBy("timeStamp", "desc"),
-        limit(5)
+        limit(4)
       );
       const docSnap = await getDocs(q);
 
@@ -80,7 +81,7 @@ const Home = () => {
         collectionRef,
         where("type", "==", "sell"),
         orderBy("timeStamp", "desc"),
-        limit(5)
+        limit(4)
       );
       const docSnap = await getDocs(q);
 
@@ -101,39 +102,54 @@ const Home = () => {
     <>
       <Slider />
       <div className="max-w-6xl mx-auto">
-        <h3 className="text-xl font-medium py-4">Recent Offers</h3>
-        <span
-          className="block text-sm text-blue-600 font-medium cursor-pointer"
-          title="See more"
-        >
-          Show more offers
-        </span>
-        <div className="w-full flex grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {doneOffer &&
-            offers.map(({ id, data }) => <Card key={id} id={id} data={data} />)}
-        </div>
-        <h3 className="text-xl font-medium py-4">Places for Rent</h3>
-        <span
-          className="block text-sm text-blue-600 font-medium cursor-pointer"
-          title="See more"
-        >
-          Show more places for rent
-        </span>
-        <div className="w-full flex grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {doneRent &&
-            rent.map(({ id, data }) => <Card key={id} id={id} data={data} />)}
-        </div>
-        <h3 className="text-xl font-medium py-4">Places for Sale</h3>
-        <span
-          className="block text-sm text-blue-600 font-medium cursor-pointer"
-          title="See more"
-        >
-          Show more places for sale
-        </span>
-        <div className="w-full flex grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {doneSale &&
-            sale.map(({ id, data }) => <Card key={id} id={id} data={data} />)}
-        </div>
+        {doneOffer && (
+          <div>
+            <h3 className="text-xl font-medium py-4">Recent Offers</h3>
+            <Link to='category/offer'
+              className="block text-sm text-blue-600 font-medium cursor-pointer"
+              title="See more"
+            >
+              Show more offers
+            </Link>
+            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {offers.map(({ id, data }) => (
+                <Card key={id} id={id} data={data} />
+              ))}
+            </div>
+          </div>
+        )}
+        {doneRent && (
+          <div>
+            <h3 className="text-xl font-medium py-4">Places for Rent</h3>
+            <Link to='category/rent'
+              className="block text-sm text-blue-600 font-medium cursor-pointer"
+              title="See more"
+            >
+              Show more places for rent
+            </Link>
+            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {rent.map(({ id, data }) => (
+                <Card key={id} id={id} data={data} />
+              ))}
+            </div>
+          </div>
+        )}
+        {doneSale && (
+          <div>
+            <h3 className="text-xl font-medium py-4">Places for Sale</h3>
+            <Link to='/category/sell'
+              className="block text-sm text-blue-600 font-medium cursor-pointer"
+              title="See more"
+            >
+              Show more places for sale
+            </Link>
+            <div className="w-full grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {sale.map(({ id, data }) => (
+                <Card key={id} id={id} data={data} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
