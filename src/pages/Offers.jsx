@@ -40,7 +40,6 @@ const Offers = () => {
     fetchData();
   }, [queryLimit]);
 
-  console.log(dataList);
 
   if (loading) {
     return <Spinner />;

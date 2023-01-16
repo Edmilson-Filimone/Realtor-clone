@@ -17,7 +17,7 @@ import { db } from "../firebase.config.js";
 import Card from "../components/Card.jsx";
 import { uuidv4 as uuid } from "@firebase/util";
 import {FcHome} from "react-icons/fc"
-import { data } from "autoprefixer";
+
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -101,6 +101,7 @@ const Profile = () => {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    let list =[]
     async function fetchData() {
       const dbRef = collection(db, "listings");
       const q = query(
@@ -110,18 +111,15 @@ const Profile = () => {
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        //console.log(doc.id, "=>", doc.data());
-        setDone(true);
-        setDataCollection((preStat) => [
-          ...preStat,
-          { id: doc.id, data: doc.data() },
-        ]);
+        list.push({ id: doc.id, data: doc.data() })
       });
+      if(!querySnapshot.empty){
+        setDataCollection(list)
+        setDone(true)
+      }
     }
     fetchData();
   }, [auth.currentUser.uid]);
-
-  console.log(dataCollection);
 
   return (
     <>
@@ -170,9 +168,7 @@ const Profile = () => {
         <div className="md:grid gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {
         done && dataCollection.map((doc) => (
-        <div>
         <Card key={uuid()} id={doc.id} data={doc.data} onEdit={onEdit} onDelete={onDelete}/>
-        </div>
         ))
         }
         </div>
