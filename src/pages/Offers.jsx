@@ -48,7 +48,7 @@ const Offers = () => {
   return (
     <>
       <h2 className="text-2xl text-center font-semibold py-6">Offers</h2>
-      <div className="max-w-6xl mx-auto grid gap-5 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+      <div className="max-w-6xl mx-auto px-4 md:px-[40px] grid gap-5 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
         {!loading &&
           dataList.map(({ id, data }) => <Card key={id} id={id} data={data} />)}
       </div>

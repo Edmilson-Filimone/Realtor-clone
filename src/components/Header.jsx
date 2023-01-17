@@ -34,12 +34,12 @@ const Header = () => {
 
   return (
     <div className="border-b bg-white shadow-sm sticky top-0 z-40">
-      <header className="flex justify-between px-3 mx-auto max-w-6xl items-center">
+      <header className="flex justify-between px-4 md:px-[40px] mx-auto max-w-6xl items-center">
         <div>
-          <img className="h-5 cursor-pointer" src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg" alt="realtor logo" onClick={() => navigate("/") }/>
+          <img className="h-4 md:h-5 cursor-pointer" src="https://static.rdc.moveaws.com/images/logos/rdc-logo-default.svg" alt="realtor logo" onClick={() => navigate("/") }/>
         </div>
         <div>
-          <ul className="flex space-x-10">
+          <ul className="flex space-x-6 md:space-x-10">
             <li className={`text-sm font-semibold text-gray-400 py-3 cursor-pointer ${currentLocation("/") && "text-black border-b-[3px] border-b-red-500"}`} onClick={()=> navigate("/")} >Home</li>
 
             <li className={`text-sm font-semibold text-gray-400 py-3 cursor-pointer ${currentLocation("/offers") && "text-black border-b-[3px] border-b-red-500"}`} onClick={()=> navigate("/offers")}>Offers</li>

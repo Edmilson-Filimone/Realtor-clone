@@ -101,7 +101,7 @@ const Home = () => {
   return (
     <>
       <Slider />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 md:px-[40px]">
         {doneOffer && (
           <div>
             <h3 className="text-xl font-medium py-4">Recent Offers</h3>

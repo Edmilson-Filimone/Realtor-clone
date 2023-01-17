@@ -100,7 +100,7 @@ function Listing() {
           Copied
         </div>
       )}
-      <div className="flex flex-col md:flex-row lg:space-x-5 max-w-6xl mx-auto mt-4 mb-6 py-9 px-4 bg-white rounded-md shadow-lg">
+      <div className="flex flex-col md:flex-row lg:space-x-5 max-w-6xl mx-auto mt-4 mb-6 py-9 px-4 md:px-[40px] bg-white rounded-md shadow-lg">
         <div className="w-full">
           <h3 className="text-xl text-sky-900 font-bold pb-3">
             <span>{data.name} - </span>

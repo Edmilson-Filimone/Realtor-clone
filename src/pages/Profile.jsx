@@ -123,9 +123,9 @@ const Profile = () => {
 
   return (
     <>
-      <section className="py-5 px-10 mx-auto md:px-24 lg:px-36 xl:px-44">
+      <section className="w-full py-5">
         <h2 className="text-3xl font-semibold text-center">My Profile</h2>
-        <form className="relative w-full mx-auto py-2 max-w-6xl">
+        <form className="relative max-w-6xl w-full px-4 md:px-24 lg:px-36 xl:px-44 mx-auto py-2">
           <input
             type="text"
             id="name"
@@ -142,7 +142,7 @@ const Profile = () => {
             disabled
           />
         </form>
-        <div className="flex justify-between text-sm md:text-base whitespace-nowrap max-w-6xl mx-auto">
+        <div className="w-full max-w-6xl flex justify-between text-sm md:text-base whitespace-nowrapw-full px-4 md:px-24 lg:px-36 xl:px-44 mx-auto py-2">
           <div>
             Do you want to change your name?
             <div
@@ -160,12 +160,14 @@ const Profile = () => {
             Sign Out
           </span>
         </div>
-        <button className="flex justify-center items-center w-full max-w-6xl mx-auto px-3 py-2 my-4 text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90">
-          <span className="text-base p-1 mr-2 bg-red-300 rounded-full"><FcHome/></span>
-          <Link to="/create-listing">sell or rent your home</Link>
-        </button>
+        <div className="w-full max-w-6xl px-4 md:px-24 lg:px-36 xl:px-44 mx-auto">
+          <button className="w-full py-2.5 flex justify-center items-center text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90">
+            <span className="text-base p-1 mr-2 bg-red-300 rounded-full"><FcHome/></span>
+            <Link to="/create-listing">sell or rent your home</Link>
+          </button>
+        </div>
         <h2 className={"text-2xl text-center font-semibold py-5"}>My Listing</h2>
-        <div className="md:grid gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-[40px] md:grid gap-3 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {
         done && dataCollection.map((doc) => (
         <Card key={uuid()} id={doc.id} data={doc.data} onEdit={onEdit} onDelete={onDelete}/>

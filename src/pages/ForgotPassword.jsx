@@ -29,7 +29,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <section className="py-5 px-10 md:px-24 lg:px-36 xl:px-44">
+    <section className="py-5 px-4 md:px-24 lg:px-36 xl:px-44">
       <h1 className="text-3xl font-bold text-center">Forgot Password</h1>
       <div className="md:grid md:grid-cols-2 md:space-x-10 xl:space-x-8 my-10">
         <img
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
             value={email}
             onChange={onchange}
           />
-          <div className="flex justify-between py-4">
+          <div className="flex justify-between py-4 text-sm md:text-basic">
             <div>
               <span>Don't have an account?</span>
               <Link
