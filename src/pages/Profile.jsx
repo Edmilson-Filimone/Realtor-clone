@@ -161,9 +161,9 @@ const Profile = () => {
           </span>
         </div>
         <div className="w-full max-w-6xl px-4 md:px-24 lg:px-36 xl:px-44 mx-auto">
-          <button className="w-full py-2.5 flex justify-center items-center text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90">
+          <button className="w-full py-2.5 flex justify-center items-center text-center text-white font-medium uppercase bg-blue-500 shadow-md rounded duration-150  ease-in-out hover:brightness-90" onClick={()=>navigate("/create-listing")}>
             <span className="text-base p-1 mr-2 bg-red-300 rounded-full"><FcHome/></span>
-            <Link to="/create-listing">sell or rent your home</Link>
+            <span>sell or rent your home</span>
           </button>
         </div>
         <h2 className={"text-2xl text-center font-semibold py-5"}>My Listing</h2>

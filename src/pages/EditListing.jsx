@@ -26,16 +26,16 @@ const EditListing = () => {
   const [file, setFile] = useState(""); //for file input
   const [inputData, setInputData] = useState({
     type: "sell",
-    name: "Kamik Filimone",
-    beds: 2,
-    baths: 1,
+    name: "",
+    beds: 0,
+    baths: 0,
     parking: false,
     furnished: false,
-    address: "Boane",
-    description: "Distrito de Boane - vila",
+    address: "",
+    description: "",
     offers: true,
-    price: 850000,
-    discount: 7000,
+    price: 0,
+    discount: 0,
     longitude: 0,
     latitude: 0,
   });
@@ -228,7 +228,7 @@ const EditListing = () => {
       <h1 className="mt-3 mb-3 text-3xl text-center font-bold ">
         Update Listing
       </h1>
-      <form className="w-[400px] mx-auto" onSubmit={onsubmit}>
+      <form className="w-full max-w-[540px] mx-auto px-4 md:px-[40px]" onSubmit={onsubmit}>
         <label className="font-medium">Sell / Rent</label>
         <div className="flex justify-between gap-5 mb-5">
           <button

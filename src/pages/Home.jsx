@@ -35,7 +35,6 @@ const Home = () => {
 
       if (!docSnap.empty) {
         docSnap.forEach((doc) => {
-          console.log(doc.id, "==>", doc.data());
           list.push({ id: doc.id, data: doc.data() });
         });
 
@@ -61,7 +60,6 @@ const Home = () => {
 
       if (!docSnap.empty) {
         docSnap.forEach((doc) => {
-          console.log(doc.id, "==>", doc.data());
           list.push({ id: doc.id, data: doc.data() });
         });
 
@@ -87,7 +85,6 @@ const Home = () => {
 
       if (!docSnap.empty) {
         docSnap.forEach((doc) => {
-          console.log(doc.id, "==>", doc.data());
           list.push({ id: doc.id, data: doc.data() });
         });
 

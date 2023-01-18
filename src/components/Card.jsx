@@ -3,15 +3,43 @@ import { Link } from "react-router-dom";
 import { HiLocationMarker } from "react-icons/hi";
 import { BsFillPencilFill} from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
-import { DateTime } from "luxon";
 
 function Card({ id, data, onEdit, onDelete }) {
+
+  function elapsedTime (){
+    const timestamp = data.timeStamp.toDate()
+    const now = new Date()
+    const elapsed = now - timestamp
+    const minutes =  Math.floor(elapsed/(1000 * 60)) 
+    const hours = Math.floor(elapsed/(1000 * 60 * 60))
+    const days = Math.floor(elapsed/(1000 * 60 * 60 * 24))
+    const months = Math.floor(elapsed/(1000 * 60 * 60 * 24 * 30))
+    const years = Math.floor(elapsed/(1000 * 60 * 60 * 24 * 365))
+
+    const statment = (value, label) => `${value} ${label} ago`
+    if(minutes <= 60){
+      return statment(minutes, minutes > 1 ? 'minutes':'minute')
+    }
+    if(days < 1){
+      return statment(hours, hours > 1 ? 'hours':'hour')
+    }
+    if(days >= 1 && days < 30){
+      return statment(days,  days > 1 ? 'days':'day')
+    }
+    if(days >= 30 && days < 365){
+      return statment(months > 1 ? 'months':'month')
+    }
+    if(days >= 365){
+      return statment(years > 1 ? 'years':'year')
+    }
+  }
+
   return (
     <div className="relative h-[370px] w-full mt-4 mb-4 rounded-md overflow-x-hidden overflow-y-hidden bg-white shadow-md shadow-slate-300">
       <Link className="overflow-hidden h-[200px]" to={`/category/${data.type}/${id}`}>
         <img
           className="w-full min-h-[200px] max-h-[200px] object-cover transform hover:scale-110 transition ease-in duration-150"
-          src={data.imgUrls[0]}
+          src={data.imgUrls[data.imgUrls.length - 1]} //getting the last image on the array to be the profile picture
           alt="Image of the house"
           title="Go to page"
         />
@@ -50,11 +78,9 @@ function Card({ id, data, onEdit, onDelete }) {
           )}
         </div>
       </div>
-      <div className="absolute top-4 w-28 p-1 shadow-sm rounded-r-md text-white uppercase font-medium text-center bg-blue-500">
+      <div className="absolute top-4 w-36 p-1 shadow-sm rounded-r-md text-white uppercase font-medium text-center bg-blue-500">
         {" "}
-        {DateTime.now()
-          .minus(data.timeStamp.toDate())
-          .toRelativeCalendar({ locale: "en" })}
+        {elapsedTime()}
       </div>
     </div>
   );

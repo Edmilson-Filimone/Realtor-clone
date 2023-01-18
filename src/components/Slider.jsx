@@ -60,7 +60,7 @@ function Slider() {
             <SwiperSlide key={id} onClick={()=>{navigate(`/category/${data?.type}/${id}`)}}>
               <div
                 style={{
-                  background: `url(${data?.imgUrls[0]}) no-repeat center`,
+                  background: `url(${data?.imgUrls[data.imgUrls.length - 1]}) no-repeat center`,
                   backgroundSize: "cover",
                 }}
                 className="relative w-full h-[300px] cursor-pointer"
