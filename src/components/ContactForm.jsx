@@ -33,7 +33,7 @@ function ContactForm({ data }) {
         {userData.name && (
           <p className="py-4">{`Contact ${userData.name} for the ${data.name}?`}</p>
         )}
-        <form>
+        <form method='POST' action={`mailto:${userData.email}?subject=${userData.name}&body=${message}`}>
           <textarea
             className="w-full h-[100px] rounded-md active:border-blue-500"
             name="message"
@@ -41,13 +41,11 @@ function ContactForm({ data }) {
             onChange={onChange}
             value={message}
           ></textarea>
-          <a href={`mailto:${userData.email}?subject=${userData.name}&body=${message}`}>
-              <button
-                className="w-full shadow-md rounded-md mt-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700"
+            <button
+              type="submit" className="w-full shadow-md rounded-md mt-5 py-2 bg-blue-600 text-white text-center font-semibold uppercase transition ease-in-out duration-100 hover:bg-blue-700"
               >
-                Send Message
-              </button>
-          </a>
+              Send Message
+            </button>
         </form>
       </div>
     </>
