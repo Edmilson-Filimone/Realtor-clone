@@ -33,7 +33,7 @@ function ContactForm({ data }) {
         {userData.name && (
           <p className="py-4">{`Contact ${userData.name} for the ${data.name}?`}</p>
         )}
-        <form method='POST' action={`mailto:${userData.email}?subject=${userData.name}&body=${message}`} enctype="multipart/form-data">
+        <form method='POST' action={`mailto:${userData.email}?subject=${data.name}&body=${message}`} enctype="multipart/form-data">
           <textarea
             className="w-full h-[100px] rounded-md active:border-blue-500"
             name="message"
